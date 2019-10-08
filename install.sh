@@ -26,9 +26,19 @@ fi
 CommandExists "vim"
 if [ $? -eq 0 ];
 then
-	command="sh $SCRIPT_DIR/vim_config.sh"
-	echo "      using command: $command"
-	$command
+    echo "      using local?(yes/no):"
+    read use_local
+
+    if [ use_local -streq "yes" ];
+    then
+        command="sh $SCRIPT_DIR/vim_config.sh"
+        echo "      using command: $command"
+        $command
+    elif [ use_local -streq "no" ];
+    then
+        cat $SCRIPT_DIR/vim.tar.gz.* | tar xvf -
+        mv .vim $HOME/
+    fi
 else
 	echo "      exiting script"
 	exit
